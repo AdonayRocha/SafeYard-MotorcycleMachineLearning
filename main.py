@@ -1,34 +1,53 @@
-from ultralytics import YOLO
+from inference import InferencePipeline
 import cv2
 
-# Carrega o modelo treinado
-modelo = YOLO("modelo/best.pt")  # Substitua com o caminho correto
+#Trata os resultados
+def my_sink(result, video_frame):
+    if result.get("output_image"):
+        cv2.imshow("Imagem com detecções", result["output_image"].numpy_image)
+        cv2.waitKey(1)
 
-# Leitura da imagem ou vídeo
-imagem = cv2.imread("imagens/rua_com_motos.jpg")  # Ou vídeo/câmera
+    motocicletas = [p for p in result["predictions"] if p["class_name"].lower() == "motocicleta"]
+    print(f"Motocicletas detectadas: {len(motocicletas)}")
 
-# Roda a detecção
-resultados = modelo(imagem)[0]
 
-# Contador de motocicletas
-contador = 0
+# Câmera/webcam
+def p_camera(api_key, workspace_name, workflow_id, camera_id=0, max_fps=15):
+    pipeline = InferencePipeline.init_with_workflow(
+        api_key=api_key,
+        workspace_name=workspace_name,
+        workflow_id=workflow_id,
+        video_reference=camera_id,
+        max_fps=max_fps,
+        on_prediction=my_sink
+    )
+    pipeline.start()
+    pipeline.join()
 
-# Itera sobre detecções
-for box in resultados.boxes:
-    classe_id = int(box.cls[0])
-    label = modelo.names[classe_id]
-    if label.lower() == "motocicleta":  # nome da classe usada no Roboflow
-        contador += 1
-        x1, y1, x2, y2 = map(int, box.xyxy[0])
-        conf = box.conf[0].item()
-        cv2.rectangle(imagem, (x1, y1), (x2, y2), (0,255,0), 2)
-        cv2.putText(imagem, f"{label} {conf:.2f}", (x1, y1-10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
 
-# Mostrar resultado
-cv2.putText(imagem, f"Total motocicletas: {contador}", (10, 30),
-            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+# Vídeo local
+def p_local(api_key, workspace_name, workflow_id, video_path, max_fps=15):
+    pipeline = InferencePipeline.init_with_workflow(
+        api_key=api_key,
+        workspace_name=workspace_name,
+        workflow_id=workflow_id,
+        video_reference=video_path,
+        max_fps=max_fps,
+        on_prediction=my_sink
+    )
+    pipeline.start()
+    pipeline.join()
 
-cv2.imshow("Deteccao", imagem)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+
+# Roboflow
+API_KEY = "zl2QCx0S5KqmkOzxvjJs"
+WORKSPACE = "safeyard"
+WORKFLOW_ID = "detect-count-and-visualize"
+
+
+# Video Local
+# video_local = "videos/exemplo.mp4"
+# p_local(API_KEY, WORKSPACE, WORKFLOW_ID, video_local)
+
+# Camera
+p_camera(API_KEY, WORKSPACE, WORKFLOW_ID, camera_id=0)
