@@ -1,58 +1,44 @@
-**SafeYard - Detecção de Motocicletas**
 
-Este projeto utiliza a Roboflow Inference Pipeline para detectar motocicletas
-em tempo real usando webcam ou arquivos de vídeo. Ideal para soluções de 
-monitoramento em estacionamentos, vias públicas ou ambientes industriais.
+SafeYard - Detecção de Motocicletas 🏍️
+=======================================
 
-🚀 Funcionalidades
-------------------------------------------------------------
-✔ Processamento de vídeo em tempo real (Webcam ou Arquivo)
-✔ Inferência com modelo Roboflow (object detection)
-✔ Exibição visual das detecções com bounding boxes (OpenCV)
-✔ Contagem automática de motocicletas detectadas
-✔ Fácil configuração via API Key e Workflow ID
+Este projeto detecta motocicletas em tempo real usando Roboflow e OpenCV.
 
-🧰 Pré-requisitos
-------------------------------------------------------------
-- Python 3.8 ou superior
-- Roboflow Inference SDK
-- OpenCV (cv2)
-- Uma conta na Roboflow com projeto treinado
+Requisitos
+----------
+- Python 3.7+
+- inference (Roboflow SDK)
+- opencv-python
 
-📦 Instalação
-------------------------------------------------------------
-pip install roboflow inference opencv-python
-------------------------------------------------------------
+Instalação
+----------
+1. Clone o repositório:
+   git clone https://github.com/seu-usuario/safeyard-detection.git
+   cd safeyard-detection
 
-🔧 Configuração
-------------------------------------------------------------
-Substitua os valores abaixo com suas credenciais da Roboflow:
+2. Instale as dependências:
+   pip install inference opencv-python
 
-API_KEY = "sua-api-key"
-WORKSPACE = "seu-workspace"
-WORKFLOW_ID = "seu-workflow-id"
+Configuração
+------------
+Edite no código:
+- API_KEY = "sua_chave"
+- WORKSPACE = "seu_workspace"
+- WORKFLOW_ID = "seu_workflow"
 
-🎬 Executando
-------------------------------------------------------------
-▶ Webcam:
-    p_camera(API_KEY, WORKSPACE, WORKFLOW_ID, camera_id=0)
+Uso
+---
+Para usar com webcam:
+    p_camera(API_KEY, WORKSPACE, WORKFLOW_ID)
 
-▶ Vídeo Local:
-    video_path = "videos/exemplo.mp4"
-    p_local(API_KEY, WORKSPACE, WORKFLOW_ID, video_path)
+Para usar com vídeo local:
+    p_local(API_KEY, WORKSPACE, WORKFLOW_ID, "videos/video.mp4")
 
-📊 Exemplo de Saída
-------------------------------------------------------------
-Motocicletas detectadas: 2
-Motocicletas detectadas: 1
-Motocicletas detectadas: 0
+Funcionamento
+-------------
+- Mostra imagem com detecções (OpenCV)
+- Conta motocicletas detectadas no console
 
-📌 Observações
-------------------------------------------------------------
-- O modelo da Roboflow deve conter a classe "motocicleta".
-- Para melhor acurácia, use vídeos com boa iluminação.
-- Pressione ESC para encerrar a janela do OpenCV.
-
-📄 Licença
-------------------------------------------------------------
-Distribuído sob a licença MIT. Consulte LICENSE para mais detalhes.
+Autor
+-----
+Projeto SafeYard
