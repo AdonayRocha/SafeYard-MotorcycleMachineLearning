@@ -3,6 +3,15 @@ SafeYard - Detecção de Motocicletas 🏍️
 =======================================
 
 Este projeto detecta motocicletas em tempo real usando Roboflow e OpenCV.
+Funcionalidades
+---------------
+✅ Detecção de motocicletas em tempo real via câmera ou vídeo local  
+✅ Contagem automática de motocicletas detectadas  
+✅ Exibição visual das detecções usando OpenCV  
+✅ Pipeline com workflow do Roboflow para processar os frames  
+✅ Modularização com funções separadas para câmera e vídeo  
+✅ Impressão em tempo real da quantidade de motocicletas identificadas  
+✅ Facilidade de integração com outras funcionalidades (por exemplo, alertas ou armazenamento de dados)
 
 Requisitos
 ----------
@@ -17,6 +26,7 @@ Instalação
    cd safeyard-detection
 
 2. Instale as dependências:
+   pip install
    pip install inference opencv-python
 
 Configuração
@@ -34,11 +44,7 @@ Para usar com webcam:
 Para usar com vídeo local:
     p_local(API_KEY, WORKSPACE, WORKFLOW_ID, "videos/video.mp4")
 
-Funcionamento
--------------
-- Mostra imagem com detecções (OpenCV)
-- Conta motocicletas detectadas no console
 
-Autor
+@Autor
 -----
 Projeto SafeYard
